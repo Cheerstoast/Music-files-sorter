@@ -30,7 +30,7 @@ To get the program, first get the ZIP from github, unzip it, and then delete the
     wget https://github.com/Cheerstoast/Music-files-sorter/archive/refs/heads/main.zip && unzip main.zip && rm main.zip
 To run the program, just run
 
-    python3 main.py
+    python3 Music-files-sorter-main/main.py
 
 ## 3. Usage
 
