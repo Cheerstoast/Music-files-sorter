@@ -14,6 +14,7 @@ formats = []
 # Welcome message
 print('\033[H\033[J\001\033[0;92m\002Welcome to this music file sorter.\nAll the music in your specified folder\nwill be processed and sorted.\n\001\033[0m\002')
 
+
 # Get valid input directory
 while 1:
   inputdirectory = input('Enter input folder directory: ')
@@ -36,7 +37,8 @@ for directory in directories:
     formats.append(directory.split(".")[-1])
 
 if not len(files):
-  input('\001\033[0;31m\002No songs are detected in the "' + inputdirectory + '" folder.\001\033[0m\002')   
+  input('\001\033[0;31m\002\nNo songs are detected in the "' + inputdirectory + '" folder.\001\033[0m\002')
+  raise RuntimeError
 # Show songs detected
 input('\033[H\033[J\001\033[0;92m\002OK. ' + str(len(files)) + ' songs are detected in the "' + inputdirectory + '" folder.\nPress enter to process them. ⌲ \001\033[0m\002')
 
@@ -72,7 +74,7 @@ for file in files:
     except:
       title = input('Title of "' + file.split("/")[-1]  + '" not found.\nTell me the title: ')
   except:
-    print('\n\n\033[H\033[J\001\033[0;31m\002Sorry, an error occurred getting the music metadata.\n')
+    input('\n\n\033[H\033[J\001\033[0;31m\002Sorry, an error occurred getting the music metadata.\n')
     raise RuntimeError
 
 # Part 2: Output and sort files based on metadata
