@@ -3,6 +3,8 @@ import glob
 import os
 
 supported_formats = ['mp3','wav','flac','ogg']
+files = []
+
 artists = []
 albums = []
 tracknumbers = []
@@ -24,8 +26,7 @@ while 1:
 # Directories list contains directories of all files and subfolders within the specified folder.
 directories = glob.glob('./' + inputdirectory.split('/')[-1] + '/**', recursive = True)
 
-# Make the files list, and append only music files.
-files = []
+# Append only music files.
 for directory in directories:
   # Encode each directory to avoid bugs for os.isfile()
   directories[directories.index(directory)] = directory.encode()
@@ -34,6 +35,8 @@ for directory in directories:
     files.append(directory)
     formats.append(directory.split(".")[-1])
 
+if not len(files):
+  input('\001\033[0;31m\002No songs are detected in the "' + inputdirectory + '" folder.\001\033[0m\002')   
 # Show songs detected
 input('\033[H\033[J\001\033[0;92m\002OK. ' + str(len(files)) + ' songs are detected in the "' + inputdirectory + '" folder.\nPress enter to process them. ⌲ \001\033[0m\002')
 
@@ -77,9 +80,9 @@ print('\n\n\n\033[H\033[J\001\033[0;92m\002All the metadata for the music is rea
 # Get valid output directory
 while 1:
   outputdirectory = input('Enter output folder directory: ')
-  if outputdirectory[-1] == '/':
-    outputdirectory = outputdirectory[:-1]
   if os.path.isdir(outputdirectory):
+    if outputdirectory[-1] == '/':
+      outputdirectory = outputdirectory[:-1]
     break
   else:
     print('\nSorry, that is not a valid directory.\nYou could use "music" as your output directory.\n')
