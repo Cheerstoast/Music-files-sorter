@@ -13,7 +13,7 @@ Basically it sorts your music files into a clean structure:
 >>>> 02 - Balloons.mp3
 >>>> 
 >>> Album 2
->>>> 01 - Kittens.mp3
+>>>> 01 - Kittens.m4a
 >>> 
 >> Joan
 >>> Album 1
@@ -22,9 +22,9 @@ Basically it sorts your music files into a clean structure:
 Some apps require music to be stored in this organized way... And this program does it for you. 
 
 ## 2. Building
-The python modules "audio_metadata" and "glob" are required to be installed. Put this in command line to install them.
+The python modules "tinytag" and "glob" are required to be installed. Put this in command line to install them.
 
-    pip3 install audio-metadata glob2
+    pip3 install tinytag glob2
 To get the program, first get the ZIP from github, unzip it, and then delete the zip file.
 
     wget https://github.com/Cheerstoast/Music-files-sorter/archive/refs/heads/main.zip && unzip main.zip && rm main.zip
@@ -34,7 +34,7 @@ To run the program, just run
 
 ## 3. Usage
 
-Supported formats include: .mp3 .wav .flac and .ogg
+Supported formats include: .mp3 .wav .flac .ogg and .m4a
 
 The program was made to be fool-proof, and the user must put valid input/output directories for the program to analyze.
 
