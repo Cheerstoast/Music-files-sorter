@@ -1,8 +1,8 @@
-import audio_metadata
+import tinytag
 import glob
 import os
 
-supported_formats = ['mp3','wav','flac','ogg']
+supported_formats = ['mp3','wav','flac','ogg','m4a']
 files = []
 
 artists = []
@@ -46,21 +46,21 @@ input('\033[H\033[J\001\033[0;92m\002OK. ' + str(len(files)) + ' songs are detec
 for file in files:
   print('\nGetting "' + file.split("/")[-1] + '"...')
   try:
-    metadata = audio_metadata.load(file)
+    metadata = tinytag.TinyTag.get(file)
     try:
-      artist = metadata['tags']['artist'][0]
+      artist = metadata.artist
       print('Artist is ' + artist)
       artists.append(artist)
     except:
       artist = input('Artist of "' + file.split("/")[-1] + '" not found.\nTell me the artist: ')
     try:
-      album = metadata['tags']['album'][0]
+      album = metadata.album
       print('Album is ' + album)
       albums.append(album)
     except:
       album = input('Album of "' + file.split("/")[-1] + '" not found.\nTell me the album: ')
     try:
-      tracknumber = metadata['tags']['tracknumber'][0]
+      tracknumber = metadata.disc
       if int(tracknumber) < 10:
         tracknumber = '0' + tracknumber
       print('Track number is ' + tracknumber)
@@ -68,7 +68,7 @@ for file in files:
     except:
       title = input('Track number of "' + file.split("/")[-1]  + '" not found.\nTell me the track number: ')
     try:
-      title = metadata['tags']['title'][0]
+      title = metadata.title
       print('Title is ' + title)
       titles.append(title)
     except:
