@@ -65,9 +65,10 @@ for file in files:
     except:
       title = input('Track number of "' + file.split("/")[-1]  + '" not found.\nTell me the track number: ')
     finally:
-      if int(tracknumber) < 10:
-        tracknumber = '0' + tracknumber
-      print('Track number is ' + tracknumber)
+      try:
+        if int(tracknumber) < 10:
+          tracknumber = '0' + tracknumber
+        print('Track number is ' + tracknumber)
     try:
       title = metadata.title
       print('Title is ' + title)
