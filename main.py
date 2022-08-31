@@ -21,7 +21,7 @@ while 1:
     print('\nScanning...\nIt may take a long time.')
     break
   else:
-    print('\nSorry, that is not a valid directory.\nYou could use "music" as your input directory.\n')
+    print('\nSorry, that is not a valid directory.\n')
 
 # Directories list contains directories of all files and subfolders within the specified folder.
 directories = glob.glob('./' + inputdirectory.split('/')[-1] + '/**', recursive = True)
@@ -91,7 +91,7 @@ while 1:
       outputdirectory = outputdirectory[:-1]
     break
   else:
-    print('\nSorry, that is not a valid directory.\nYou could use "music" as your output directory.\n')
+    print('\nSorry, that is not a valid directory.\n')
 # Move and rename all music files
 for file in files:
   artist = artists[files.index(file)]
