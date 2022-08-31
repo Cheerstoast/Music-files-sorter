@@ -1,53 +1,116 @@
-# Music files sorter
-#### Written in python 3 by Mark Z
+import tinytag
+import glob
+import os
 
-## 1. What it does
+supported_formats = ['mp3','wav','flac','ogg','m4a']
+files = []
+artists = []
+albums = []
+tracknumbers = []
+titles = []
+formats = []
+delete = []
 
-Basically it sorts your music files into a clean structure:
+# Welcome message
+print('\033[H\033[J\001\033[0;92m\002Welcome to this music file sorter.\nAll the music in your specified folder\nwill be processed and sorted.\n\001\033[0m\002')
 
-> Music
->> Joe
->>> Album 1
->>>> 01 - Party.mp3
->>>> 
->>>> 02 - Balloons.mp3
->>>> 
->>> Album 2
->>>> 01 - Kittens.m4a
->>> 
->> Joan
->>> Album 1
->>>> 01 - Hugs.flac
+# Get valid input directory
+while 1:
+  inputdirectory = input('Enter input folder directory: ')
+  if os.path.isdir(inputdirectory):
+    print('\nScanning...\nIt may take a long time.')
+    break
+  else:
+    print('\nSorry, that is not a valid directory.\n')
 
-Some apps require music to be stored in this organized way... And this program does it for you. 
-
-## 2. Building
-The python modules "tinytag" and "glob" are required to be installed. Put this in command line to install them.
-
-    pip3 install tinytag glob2
-
-But before you build the program, **navigate to the parent/upper folder of your music files.**
-
-Afer that, build the program. First get the ZIP from github, unzip it, and then delete the zip file. 
+# Directories list contains directories of all files and subfolders within the specified folder.
+directories = glob.glob('./' + inputdirectory.split('/')[-1] + '/**', recursive = True)
+# Append only music files.
+for directory in directories:
+  # Encode each directory to avoid bugs for os.isfile()
+  directories[directories.index(directory)] = directory.encode()
+  # Append all suitable file paths
+  if os.path.isfile(directory) and directory.split(".")[-1] in supported_formats:
+    files.append(directory)
+    formats.append(directory.split(".")[-1])
 
 
-    curl -LO https://github.com/Cheerstoast/Music-files-sorter/archive/refs/heads/main.zip -o main.zip && unzip main.zip && rm main.zip
+if not len(files):
+  input('\001\033[0;31m\002\nNo songs are detected in the "' + inputdirectory + '" folder.\001\033[0m\002')
+  raise RuntimeError
 
-## 3. Usage
+# Show songs detected
+input('\033[H\033[J\001\033[0;92m\002OK. ' + str(len(files)) + ' songs are detected in the "' + inputdirectory + '" folder.\nPress enter to process them. ⌲ \001\033[0m\002')
 
+# Part 1: Get artists, albums, track numbers, titles and formats.
+for file in files:
+  print('\nGetting "' + file.split("/")[-1] + '"...')
+  try:
+    metadata = tinytag.TinyTag.get(file)
+    try:
+      artist = metadata.artist + ''
+    except:
+      artist = input('Artist of "' + file.split("/")[-1] + '" not found.\nTell me the artist: ')
+    finally:
+      if artist in [0,None,'']:
+        artist = "Unknown"
+      print('Artist is ' + artist)
+      artists.append(artist)
+    try:
+      album = metadata.album + ''
+    except:
+      album = input('Album of "' + file.split("/")[-1] + '" not found.\nTell me the album: ')
+    finally:
+      if album in [0,None,'']:
+        album = "Unknown"
+      print('Album is ' + album)
+      albums.append(album)
+    try:
+      title = metadata.title + ''
+    except:
+      title = input('Title of "' + file.split("/")[-1]  + '" not found.\nTell me the title: ')
+    finally:
+      if title in [0,None,'']:
+        title = "Unknown"
+      print('Title is ' + title)
+      titles.append(title)
+    try:
+      tracknumber = metadata.disc + ''
+    except:
+      tracknumber = input('\nTrack number of "' + file.split("/")[-1]  + '" not found.\nTell me the track number: ')
+    finally:
+      if tracknumber in ['0',0,None,'']:
+        tracknumber = "0"
+      if int(tracknumber) < 10:
+        tracknumber = '0' + tracknumber
+      print('Track number is ' + str(tracknumber))
+      tracknumbers.append(tracknumber)
     
-To run the program, just run
+  except:
+    input('\n\n\033[H\033[J\001\033[0;31m\002Sorry, an error occurred getting the music metadata.\n')
+    raise RuntimeError
 
-    python3 Music-files-sorter-main/main.py
+# Part 2: Output and sort files based on metadata
+print('\n\n\n\033[H\033[J\001\033[0;92m\002All the metadata for the music is ready.\n\001\033[0m\002')
+# Get valid output directory
+while 1:
+  outputdirectory = input('Enter output folder directory: ')
+  if os.path.isdir(outputdirectory):
+    if outputdirectory[-1] == '/':
+      outputdirectory = outputdirectory[:-1]
+    break
+  else:
+    print('\nSorry, that is not a valid directory.\n')
+# Move and rename all music files
+for file in files:
+  artist = artists[files.index(file)]
+  album = albums[files.index(file)]
+  tracknumber = tracknumbers[files.index(file)]
+  title = titles[files.index(file)]
+  format = formats[files.index(file)]
+  os.renames(file, f'{outputdirectory}/{artist}/{album}/{tracknumber} - {title}.{format}')
+print('\033[H\033[J\001\033[0;92m\002Success!\nAll the music is in "' + outputdirectory + '", all sorted.\n\001\033[0m\002')
 
-The program is totally fool-proof. It took a long time to make it so.
-
-The user must put valid input and output directories for the program to analyze. The input and output directories could be the same, if you just wanted to tidy up the music folder.
-
-Supported formats include: .mp3 .wav .flac .ogg and .m4a
-
-If some parts of the metadata are missing, it would just ask you for them.
-
-If any errors occur, the program would terminate with an error message.
-
-### Enjoy >!<
+# If all content from input directory has been moved and input directory was deleted, make it again.
+if not os.path.exists(inputdirectory):
+  os.makedirs(inputdirectory)
