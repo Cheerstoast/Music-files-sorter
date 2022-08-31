@@ -4,16 +4,15 @@ import os
 
 supported_formats = ['mp3','wav','flac','ogg','m4a']
 files = []
-
 artists = []
 albums = []
 tracknumbers = []
 titles = []
 formats = []
+delete = []
 
 # Welcome message
 print('\033[H\033[J\001\033[0;92m\002Welcome to this music file sorter.\nAll the music in your specified folder\nwill be processed and sorted.\n\001\033[0m\002')
-
 
 # Get valid input directory
 while 1:
@@ -26,7 +25,6 @@ while 1:
 
 # Directories list contains directories of all files and subfolders within the specified folder.
 directories = glob.glob('./' + inputdirectory.split('/')[-1] + '/**', recursive = True)
-
 # Append only music files.
 for directory in directories:
   # Encode each directory to avoid bugs for os.isfile()
@@ -36,9 +34,11 @@ for directory in directories:
     files.append(directory)
     formats.append(directory.split(".")[-1])
 
+
 if not len(files):
   input('\001\033[0;31m\002\nNo songs are detected in the "' + inputdirectory + '" folder.\001\033[0m\002')
   raise RuntimeError
+
 # Show songs detected
 input('\033[H\033[J\001\033[0;92m\002OK. ' + str(len(files)) + ' songs are detected in the "' + inputdirectory + '" folder.\nPress enter to process them. ⌲ \001\033[0m\002')
 
@@ -61,12 +61,13 @@ for file in files:
       album = input('Album of "' + file.split("/")[-1] + '" not found.\nTell me the album: ')
     try:
       tracknumber = metadata.disc
-      if int(tracknumber) < 10:
-        tracknumber = '0' + tracknumber
-      print('Track number is ' + tracknumber)
       tracknumbers.append(tracknumber)
     except:
       title = input('Track number of "' + file.split("/")[-1]  + '" not found.\nTell me the track number: ')
+    finally:
+      if int(tracknumber) < 10:
+        tracknumber = '0' + tracknumber
+      print('Track number is ' + tracknumber)
     try:
       title = metadata.title
       print('Title is ' + title)
@@ -88,6 +89,7 @@ while 1:
     break
   else:
     print('\nSorry, that is not a valid directory.\nYou could use "music" as your output directory.\n')
+# Move and rename all music files
 for file in files:
   artist = artists[files.index(file)]
   album = albums[files.index(file)]
@@ -96,3 +98,7 @@ for file in files:
   format = formats[files.index(file)]
   os.renames(file, f'{outputdirectory}/{artist}/{album}/{tracknumber} - {title}.{format}')
 print('\033[H\033[J\001\033[0;92m\002Success!\nAll the music is in "' + outputdirectory + '", all sorted.\n\001\033[0m\002')
+
+# If all content from input directory has been moved and input directory was deleted, make it again.
+if not os.path.exists(inputdirectory):
+  os.makedirs(inputdirectory)
