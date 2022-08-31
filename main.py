@@ -61,14 +61,14 @@ for file in files:
       album = input('Album of "' + file.split("/")[-1] + '" not found.\nTell me the album: ')
     try:
       tracknumber = metadata.disc
+      print('Track number is ' + tracknumber)
       tracknumbers.append(tracknumber)
     except:
-      title = input('Track number of "' + file.split("/")[-1]  + '" not found.\nTell me the track number: ')
+      tracknumber = input('Track number of "' + file.split("/")[-1]  + '" not found.\nTell me the track number: ')
     finally:
       try:
         if int(tracknumber) < 10:
           tracknumber = '0' + tracknumber
-        print('Track number is ' + tracknumber)
       except:
         tracknumber = '00'
     try:
