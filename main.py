@@ -53,18 +53,24 @@ for file in files:
       artists.append(artist)
     except:
       artist = input('Artist of "' + file.split("/")[-1] + '" not found.\nTell me the artist: ')
+      if not artist:
+        artist = "Unknown"
     try:
       album = metadata.album
       print('Album is ' + album)
       albums.append(album)
     except:
       album = input('Album of "' + file.split("/")[-1] + '" not found.\nTell me the album: ')
+      if not album:
+        album = "Unknown"
     try:
       tracknumber = metadata.disc
       print('Track number is ' + tracknumber)
       tracknumbers.append(tracknumber)
     except:
       tracknumber = input('Track number of "' + file.split("/")[-1]  + '" not found.\nTell me the track number: ')
+      if not tracknumber:
+        tracknumber = "Unknown"
     finally:
       try:
         if int(tracknumber) < 10:
@@ -77,6 +83,8 @@ for file in files:
       titles.append(title)
     except:
       title = input('Title of "' + file.split("/")[-1]  + '" not found.\nTell me the title: ')
+      if not title:
+        title = "Unknown"
   except:
     input('\n\n\033[H\033[J\001\033[0;31m\002Sorry, an error occurred getting the music metadata.\n')
     raise RuntimeError
