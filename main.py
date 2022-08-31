@@ -49,25 +49,24 @@ for file in files:
     metadata = tinytag.TinyTag.get(file)
     try:
       artist = metadata.artist
-      print('Artist is ' + artist)
-      artists.append(artist)
     except:
       artist = input('Artist of "' + file.split("/")[-1] + '" not found.\nTell me the artist: ')
     finally:
       if artist in [0,None,'']:
         artist = "Unknown"
+      print('Artist is ' + artist)
+      artists.append(artist)
     try:
       album = metadata.album
-      print('Album is ' + album)
-      albums.append(album)
     except:
       album = input('Album of "' + file.split("/")[-1] + '" not found.\nTell me the album: ')
     finally:
       if album in [0,None,'']:
         album = "Unknown"
+      print('Album is ' + album)
+      albums.append(album)
     try:
       tracknumber = metadata.disc
-      tracknumbers.append(tracknumber)
     except:
       tracknumber = input('Track number of "' + file.split("/")[-1]  + '" not found.\nTell me the track number: ')
     finally:
@@ -76,15 +75,16 @@ for file in files:
       if int(tracknumber) < 10:
         tracknumber = '0' + tracknumber
       print('Track number is ' + str(tracknumber))
+      tracknumbers.append(tracknumber)
     try:
       title = metadata.title
-      print('Title is ' + title)
-      titles.append(title)
     except:
       title = input('Title of "' + file.split("/")[-1]  + '" not found.\nTell me the title: ')
     finally:
       if title in [0,None,'']:
         title = "Unknown"
+      print('Title is ' + title)
+      titles.append(title)
   except:
     input('\n\n\033[H\033[J\001\033[0;31m\002Sorry, an error occurred getting the music metadata.\n')
     raise RuntimeError
