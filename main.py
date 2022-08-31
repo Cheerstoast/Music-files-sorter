@@ -69,6 +69,8 @@ for file in files:
         if int(tracknumber) < 10:
           tracknumber = '0' + tracknumber
         print('Track number is ' + tracknumber)
+      except:
+        tracknumber = '00'
     try:
       title = metadata.title
       print('Title is ' + title)
