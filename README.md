@@ -25,12 +25,16 @@ Some apps require music to be stored in this organized way... And this program d
 The python modules "tinytag" and "glob" are required to be installed. Put this in command line to install them.
 
     pip3 install tinytag glob2
-To get the program, first get the ZIP from github, unzip it, and then delete the zip file.
+
+But before you build the program, **navigate to the parent/upper folder of your music files.**
+
+Afer that, build the program. First get the ZIP from github, unzip it, and then delete the zip file. 
+
 
     curl -LO https://github.com/Cheerstoast/Music-files-sorter/archive/refs/heads/main.zip -o main.zip && unzip main.zip && rm main.zip
 
 ## 3. Usage
-**Your music files would need to be in the same disk as the "main.py" file.**
+
     
 To run the program, just run
 
