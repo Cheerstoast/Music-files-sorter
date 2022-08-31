@@ -27,7 +27,7 @@ The python modules "tinytag" and "glob" are required to be installed. Put this i
     pip3 install tinytag glob2
 To get the program, first get the ZIP from github, unzip it, and then delete the zip file.
 
-    curl -o main.zip https://github.com/Cheerstoast/Music-files-sorter/archive/refs/heads/main.zip && unzip main.zip && rm main.zip
+    curl -LO https://github.com/Cheerstoast/Music-files-sorter/archive/refs/heads/main.zip -o main.zip && unzip main.zip && rm main.zip
 
 ## 3. Usage
 **Your music files would need to be in the same disk as the "main.py" file.**
