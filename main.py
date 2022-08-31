@@ -53,7 +53,8 @@ for file in files:
       artists.append(artist)
     except:
       artist = input('Artist of "' + file.split("/")[-1] + '" not found.\nTell me the artist: ')
-      if not artist:
+    finally:
+      if artist in [0,None,'']:
         artist = "Unknown"
     try:
       album = metadata.album
@@ -61,29 +62,28 @@ for file in files:
       albums.append(album)
     except:
       album = input('Album of "' + file.split("/")[-1] + '" not found.\nTell me the album: ')
-      if not album:
+    finally:
+      if album in [0,None,'']:
         album = "Unknown"
     try:
       tracknumber = metadata.disc
-      print('Track number is ' + tracknumber)
       tracknumbers.append(tracknumber)
     except:
       tracknumber = input('Track number of "' + file.split("/")[-1]  + '" not found.\nTell me the track number: ')
-      if not tracknumber:
-        tracknumber = "Unknown"
     finally:
-      try:
-        if int(tracknumber) < 10:
-          tracknumber = '0' + tracknumber
-      except:
-        tracknumber = '00'
+      if tracknumber in ['0',0,None,'']:
+        tracknumber = "0"
+      if int(tracknumber) < 10:
+        tracknumber = '0' + tracknumber
+      print('Track number is ' + str(tracknumber))
     try:
       title = metadata.title
       print('Title is ' + title)
       titles.append(title)
     except:
       title = input('Title of "' + file.split("/")[-1]  + '" not found.\nTell me the title: ')
-      if not title:
+    finally:
+      if title in [0,None,'']:
         title = "Unknown"
   except:
     input('\n\n\033[H\033[J\001\033[0;31m\002Sorry, an error occurred getting the music metadata.\n')
