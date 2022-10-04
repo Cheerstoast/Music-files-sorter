@@ -79,7 +79,7 @@ for file in files:
       print('Title is ' + title)
       titles.append(title)
     try:
-      if not tracknumber = '0':
+      if not tracknumber == '0':
         tracknumber = metadata.disc + ''
     except:
       tracknumber = input('\nTrack number of "' + file.split("/")[-1]  + '" not found.\nTell me the track number: ')
