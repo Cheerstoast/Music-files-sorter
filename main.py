@@ -24,7 +24,7 @@ while 1:
     print('\nSorry, that is not a valid directory.\n')
 
 
-if y in input('Do you wish to skip track numbers? This way, the titles of the songs would not be "13 - Happy.mp3" but be "00 - Happy.mp3"'):
+if 'y' in input('Do you wish to skip track numbers? This way, the titles of the songs would not be "13 - Happy.mp3" but be "00 - Happy.mp3"'):
   tracknumber = '0'
 
 # Directories list contains directories of all files and subfolders within the specified folder.
