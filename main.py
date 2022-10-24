@@ -23,10 +23,6 @@ while 1:
   else:
     print('\nSorry, that is not a valid directory.\n')
 
-
-if 'y' in input('Do you wish to skip track numbers? This way, the titles of the songs would not be "13 - Happy.mp3" but be "00 - Happy.mp3"'):
-  tracknumber = '0'
-
 # Directories list contains directories of all files and subfolders within the specified folder.
 directories = glob.glob('./' + inputdirectory.split('/')[-1] + '/**', recursive = True)
 # Append only music files.
@@ -79,8 +75,7 @@ for file in files:
       print('Title is ' + title)
       titles.append(title)
     try:
-      if not tracknumber == '0':
-        tracknumber = metadata.disc + ''
+      tracknumber = metadata.track + ''
     except:
       tracknumber = input('\nTrack number of "' + file.split("/")[-1]  + '" not found.\nTell me the track number: ')
     finally:
